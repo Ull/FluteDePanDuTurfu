@@ -1,12 +1,59 @@
-video 
-{
+body {
+  background-color: rgb(209, 214, 228);
+}
+
+video {
+  display: inline-block;
+  width: 120px;
+  height: 213px;
+  border-radius:  5px 5px 0px 0px;
+
+}
+
+.outer-block {
+  text-align: center;
+}
+#videos-block {
+  display: inline-block;
+  margin-top: 50px;
+}
+
+.note {
+    border-radius: 20px;
+    margin: 2px;
     display: inline-block;
 }
 
-#outer-videos-block
-{
-    text-align: center;
+.video-container {
+    height: 213px;
 }
-#videos-block {
-    display: inline-block;
+
+button {
+  position: relative;
+  border: none;
+  box-shadow: 0px 3px 3px rgb(22, 22, 22);
+  transition: box-shadow 0.1s ease-in-out;
+  border-radius: 0px 0px 5px 5px;
+  width: 120px;
+  height: 200px;
+  outline: none;
+  background-color: white;
+}
+
+button:hover {
+  background-color: rgb(237, 242, 248);
+}
+
+
+
+button h1 {
+}
+
+button h2 {
+  border: 1px solid black;
+  border-radius: 3px;
+  font-weight: 400;
+  display: inline-block;
+  padding: 3px 6px;
+  background-color: rgb(231, 231, 231);
 }

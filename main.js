@@ -1,41 +1,3 @@
-// document.getElementById("sol-button").addEventListener("click", play_sol);
-// document.getElementById("la-button").addEventListener("click", play_la);
-
-// var video = document.getElementById("video");
-// var source = document.createElement('source');
-// source.setAttribute('src', 'videos/01_Sol.mp4');
-
-// video.appendChild(source);
-
-// function play_sol() {
-//     source.setAttribute('src', 'videos/01_Sol.mp4');
-//     video.load();
-//     video.play();
-// }
-
-// function play_la() {
-//     source.setAttribute('src', 'videos/02_La.mp4');
-//     video.load();
-//     video.play();
-// }
-
-// document.getElementById("test-button").addEventListener("mousedown", test1);
-// document.getElementById("test-button").addEventListener("mouseup", test2);
-
-// var videoTest = document.getElementById("video-test");
-// videoTest.style.display = "none";
-// function test1() {
-//     videoTest.style.display = "inline-block";
-//     videoTest.currentTime = 0;
-//     videoTest.play();
-
-// }
-// function test2() {
-//     videoTest.style.display = "none";
-//     videoTest.pause();
-
-// }
-
 var videos = [
   '01_Sol.mp4',
   '02_La.mp4',
@@ -52,7 +14,7 @@ var videos = [
   '13_Mi.mp4'
 ]
 
-var keys = [
+var keysCodes = [
   'KeyA',
   'KeyS',
   'KeyD',
@@ -65,72 +27,85 @@ var keys = [
   'Semicolon',
   'Quote',
   'Backslash',
-  'BracketRight',
+  'BracketRight'
+]
+
+var keysFrench = [
+  'Q',
+  'S',
+  'D',
+  'F',
+  'G',
+  'H',
+  'J',
+  'K',
+  'L',
+  'M',
+  'Ù',
+  '*',
+  '$'
 ]
 
 var videosBlock = document.getElementById('videos-block')
 var buttonsBlock = document.getElementById('buttons-block')
 
-var videoPlayers = []
 var buttons = []
 
-videos.forEach(videoFile => {
+videos.forEach(function (videoFile, i) {
+  var div = document.createElement('div')
+  div.setAttribute('class', 'note')
+
+  var videoContainer = document.createElement('div')
+  videoContainer.setAttribute('class', 'video-container')
   var video = document.createElement('video')
   var source = document.createElement('source')
   source.setAttribute('src', 'videos/' + videoFile)
-  video.setAttribute('width', '120')
+  video.setAttribute('class', 'video')
   video.appendChild(source)
-  videosBlock.appendChild(video)
-  videoPlayers.push(video)
+  videoContainer.appendChild(video)
+  div.appendChild(videoContainer)
   video.style.display = 'none'
 
   var button = document.createElement('button')
-  button.innerHTML = videoFile
-  buttonsBlock.appendChild(button)
+  button.innerHTML =
+    videoFile.split('_')[1].split('.')[0] + '\n' + keysFrench[i]
+  button.innerHTML =
+    '<h1>' +
+    videoFile.split('_')[1].split('.')[0] +
+    '</h1><h2>' +
+    keysFrench[i] +
+    '</h2>'
 
   button.addEventListener('mousedown', function () {
     video.style.display = 'inline-block'
     video.currentTime = 0
     video.play()
+    button.style.backgroundColor = 'rgb(220, 220, 220)'
+    button.style.boxShadow = '0px 1px 1px rgb(22, 22, 22)'
   })
   button.addEventListener('mouseup', function () {
     video.style.display = 'none'
     video.pause()
+    button.style.backgroundColor = null
+    button.style.boxShadow = null
   })
   buttons.push(button)
+  div.appendChild(button)
+
+  buttonsBlock.appendChild(div)
 })
 
 document.addEventListener('keypress', keypressed)
 document.addEventListener('keyup', keyupped)
 
 function keypressed (e) {
-//   console.log(e.code)
-
-//   if (e.code == 'KeyQ') {
-//     buttons[0].dispatchEvent(new Event('mousedown'))
-//   }
-//   if (e.code == 'KeyW') {
-//     buttons[1].dispatchEvent(new Event('mousedown'))
-//   }
-
-  index = keys.indexOf(e.code)
-  console.log(index)
+  index = keysCodes.indexOf(e.code)
   if (index !== -1) buttons[index].dispatchEvent(new Event('mousedown'))
 }
 
 function keyupped (e) {
-  //   console.log(e.code)
-  //   console.log(e)
-
-  index = keys.indexOf(e.code)
+  index = keysCodes.indexOf(e.code)
   if (index !== -1) buttons[index].dispatchEvent(new Event('mouseup'))
-
-//   if (e.code == 'KeyQ') {
-//     buttons[0].dispatchEvent(new Event('mouseup'))
-//   }
-//   if (e.code == 'KeyW') {
-//     buttons[1].dispatchEvent(new Event('mouseup'))
-//   }
 }
 
 var pressedKeys = []
