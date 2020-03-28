@@ -1,0 +1,12 @@
+video 
+{
+    display: inline-block;
+}
+
+#outer-videos-block
+{
+    text-align: center;
+}
+#videos-block {
+    display: inline-block;
+}
