@@ -1,4 +1,4 @@
-var videos = [
+var videosFiles = [
   '01_Sol.mp4',
   '02_La.mp4',
   '03_Si.mp4',
@@ -46,54 +46,60 @@ var keysFrench = [
   '$'
 ]
 
-var videosBlock = document.getElementById('videos-block')
-var buttonsBlock = document.getElementById('buttons-block')
+var mainContainer = document.getElementById('main-container')
 
 var buttons = []
+var videos = []
 
-videos.forEach(function (videoFile, i) {
+videosFiles.forEach(function (videoFile, i) {
   var div = document.createElement('div')
   div.setAttribute('class', 'note')
 
-  var videoContainer = document.createElement('div')
-  videoContainer.setAttribute('class', 'video-container')
   var video = document.createElement('video')
   var source = document.createElement('source')
   source.setAttribute('src', 'videos/' + videoFile)
   video.setAttribute('class', 'video')
   video.appendChild(source)
-  videoContainer.appendChild(video)
-  div.appendChild(videoContainer)
-  video.style.display = 'none'
+  div.appendChild(video)
+  videos.push(video)
 
   var button = document.createElement('button')
   button.innerHTML =
-    videoFile.split('_')[1].split('.')[0] + '\n' + keysFrench[i]
-  button.innerHTML =
     '<h1>' +
-    videoFile.split('_')[1].split('.')[0] +
+    videoFile.split('_')[1].split('.')[0] + // '01_Sol.mp4' -> 'Sol'
     '</h1><h2>' +
-    keysFrench[i] +
+    keysFrench[i] + // Add the keyboard shortcut
     '</h2>'
 
-  button.addEventListener('mousedown', function () {
-    video.style.display = 'inline-block'
-    video.currentTime = 0
-    video.play()
-    button.style.backgroundColor = 'rgb(220, 220, 220)'
-    button.style.boxShadow = '0px 1px 1px rgb(22, 22, 22)'
-  })
-  button.addEventListener('mouseup', function () {
-    video.style.display = 'none'
-    video.pause()
-    button.style.backgroundColor = null
-    button.style.boxShadow = null
-  })
+  button.addEventListener('mousedown', playNote)
+  button.addEventListener('touchstart', playNote)
+  button.addEventListener('mouseup', stopNote)
+  button.addEventListener('touchend', stopNote)
   buttons.push(button)
+  
   div.appendChild(button)
-
-  buttonsBlock.appendChild(div)
+  mainContainer.appendChild(div)
 })
+
+function playNote (e) {
+  var [button, video] = getButtonAndVideo(e)
+  video.currentTime = 0
+  video.play()
+  video.classList.add("video-active");
+  button.classList.add("button-active");
+}
+
+function stopNote (e) {
+  var [button, video] = getButtonAndVideo(e)
+  video.pause()
+  video.classList.remove("video-active");
+  button.classList.remove("button-active");
+}
+
+function getButtonAndVideo(e) {
+  var button = (e.target.nodeName === "BUTTON" ?  e.target : e.target.parentNode)
+  return [button, videos[buttons.indexOf(button)]]
+}
 
 document.addEventListener('keypress', keypressed)
 document.addEventListener('keyup', keyupped)
